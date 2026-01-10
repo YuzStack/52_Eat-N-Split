@@ -1,13 +1,39 @@
+import { useState } from 'react';
 import Button from './Button';
 
-function FormAddFriend() {
+function FormAddFriend({ onAddFriend }) {
+  const [friendName, setFriendName] = useState('');
+  const [imageUrl, setImageUrl] = useState(
+    `https://i.pravatar.cc/48?u=${crypto.randomUUID()}`
+  );
+
+  const handleSubmit = function (e) {
+    e.preventDefault();
+
+    if (!friendName.trim()) return;
+
+    onAddFriend(friendName, imageUrl);
+    setImageUrl(`https://i.pravatar.cc/48?u=${crypto.randomUUID()}`);
+  };
+
   return (
     <div>
-      <form className='form-add-friend'>
+      <form onSubmit={handleSubmit} className='form-add-friend'>
         <label htmlFor='friend-name'>👬 Friend name</label>
-        <input type='text' id='friend-name' />
+        <input
+          type='text'
+          id='friend-name'
+          autoFocus
+          value={friendName}
+          onChange={e => setFriendName(e.target.value)}
+        />
         <label htmlFor='image-url'>🌄 Image URL</label>
-        <input type='text' id='image-url' />
+        <input
+          type='text'
+          id='image-url'
+          value={imageUrl}
+          onChange={e => setImageUrl(e.target.value)}
+        />
         <Button>Add</Button>
       </form>
     </div>
