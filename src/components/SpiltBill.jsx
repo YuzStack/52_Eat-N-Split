@@ -1,13 +1,13 @@
 import Button from './Button';
 
-function SplitBill({ name }) {
-  return <FormSplitBill />;
+function SplitBill({ selectedFriend }) {
+  return selectedFriend ? <FormSplitBill {...selectedFriend} /> : null;
 }
 
-function FormSplitBill() {
+function FormSplitBill({ name }) {
   return (
     <form className='form-split-bill'>
-      <h2>Split Bill with Anthony</h2>
+      <h2>Split Bill with {name}</h2>
 
       <label htmlFor='bill-value'>💰 Bill value</label>
       <input type='text' id='bill-value' />
