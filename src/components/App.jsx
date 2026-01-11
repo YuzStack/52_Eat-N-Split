@@ -20,7 +20,7 @@ function App() {
 
   const handleSelectFriend = function (id) {
     setSelectedFriend(friends.find(friend => friend.id === id));
-    handleToggleIsAddingFriend();
+    setIsAddingFriend(false);
 
     // Alternatively using this same function for both selection and deselection
     /* setSelectedFriend(curSelectedFriend =>
@@ -31,6 +31,18 @@ function App() {
   };
 
   const handleDeselectFriend = function () {
+    setSelectedFriend(null);
+  };
+
+  const handleSplitBill = function (value) {
+    setFriends(curFriends =>
+      curFriends.map(friend =>
+        friend.id === selectedFriend.id
+          ? { ...friend, balance: friend.balance + value }
+          : friend
+      )
+    );
+
     setSelectedFriend(null);
   };
 
@@ -47,7 +59,10 @@ function App() {
       />
 
       {selectedFriend ? (
-        <FormSplitBill selectedFriend={selectedFriend} />
+        <FormSplitBill
+          selectedFriend={selectedFriend}
+          onSplitBill={handleSplitBill}
+        />
       ) : null}
     </div>
   );
