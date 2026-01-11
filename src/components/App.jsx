@@ -1,6 +1,6 @@
 import initialFriends from '../data-template';
-import Friends from './Friends';
-import SplitBill from './SpiltBill';
+import FriendsList from './FriendsList';
+import FormSplitBill from './FormSplitBill';
 import { useState } from 'react';
 
 function App() {
@@ -8,16 +8,8 @@ function App() {
   const [isAddingFriend, setIsAddingFriend] = useState(false);
   const [selectedFriend, setSelectedFriend] = useState(null);
 
-  const handleAddFriend = function (name, imageUrl) {
-    setFriends(curFriends => [
-      ...curFriends,
-      {
-        id: crypto.randomUUID(),
-        name,
-        image: imageUrl,
-        balance: 0,
-      },
-    ]);
+  const handleAddFriend = function (friend) {
+    setFriends(curFriends => [...curFriends, friend]);
 
     handleToggleIsAddingFriend();
   };
@@ -28,19 +20,35 @@ function App() {
 
   const handleSelectFriend = function (id) {
     setSelectedFriend(friends.find(friend => friend.id === id));
+    handleToggleIsAddingFriend();
+
+    // Alternatively using this same function for both selection and deselection
+    /* setSelectedFriend(curSelectedFriend =>
+      curSelectedFriend?.id === id
+        ? null
+        : friends.find(friend => friend.id === id)
+    ); */
+  };
+
+  const handleDeselectFriend = function () {
+    setSelectedFriend(null);
   };
 
   return (
     <div className='app'>
-      <Friends
+      <FriendsList
         friends={friends}
         isAddingFriend={isAddingFriend}
         onAddFriend={handleAddFriend}
         onClick={handleToggleIsAddingFriend}
         selectedFriend={selectedFriend}
         onSelectFriend={handleSelectFriend}
+        onDeselectFriend={handleDeselectFriend}
       />
-      <SplitBill selectedFriend={selectedFriend} />
+
+      {selectedFriend ? (
+        <FormSplitBill selectedFriend={selectedFriend} />
+      ) : null}
     </div>
   );
 }

@@ -2,16 +2,17 @@ import FormAddFriend from './FormAddFriend';
 import Button from './Button';
 import Friend from './Friend';
 
-function Friends({
+function FriendsList({
   friends,
   isAddingFriend,
   onAddFriend,
   onClick,
   selectedFriend,
   onSelectFriend,
+  onDeselectFriend,
 }) {
   return (
-    <div className='friends'>
+    <div className='friends-list'>
       <ul>
         {friends.map(friend => (
           <Friend
@@ -19,20 +20,18 @@ function Friends({
             {...friend}
             selectedFriend={selectedFriend}
             onSelectFriend={onSelectFriend}
+            onDeselectFriend={onDeselectFriend}
           />
         ))}
       </ul>
 
-      {isAddingFriend ? (
-        <>
-          <FormAddFriend onAddFriend={onAddFriend} />
-          <Button onClick={onClick}>Close</Button>
-        </>
-      ) : (
-        <Button onClick={onClick}>Add friend</Button>
-      )}
+      {isAddingFriend && <FormAddFriend onAddFriend={onAddFriend} />}
+
+      <Button onClick={onClick}>
+        {isAddingFriend ? 'Close' : 'Add friend'}
+      </Button>
     </div>
   );
 }
 
-export default Friends;
+export default FriendsList;
