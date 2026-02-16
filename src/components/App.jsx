@@ -39,8 +39,8 @@ function App() {
       curFriends.map(friend =>
         friend.id === selectedFriend.id
           ? { ...friend, balance: friend.balance + value }
-          : friend
-      )
+          : friend,
+      ),
     );
 
     setSelectedFriend(null);
@@ -62,6 +62,7 @@ function App() {
         <FormSplitBill
           selectedFriend={selectedFriend}
           onSplitBill={handleSplitBill}
+          key={selectedFriend.id}
         />
       ) : null}
     </div>
